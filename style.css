@@ -1,0 +1,99 @@
+body {
+    text-align: center;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    margin-top: 20px;
+    color: #333;
+}
+
+#player-section {
+    margin-bottom: 20px;
+}
+
+#playerName {
+    padding: 10px;
+    font-size: 16px;
+    margin-right: 10px;
+    width: 200px;
+    text-align: center;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    background-color: #4CAF50;
+    color: white;
+}
+
+button:disabled {
+    background-color: #ddd;
+    cursor: not-allowed;
+}
+
+#peliruutu {
+    display: none;
+    margin-top: 20px;
+}
+
+img {
+    width: 100px;
+    height: 100px;
+    display: block;
+    margin: 10px auto;
+}
+
+#round-score {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+#total-scores {
+    margin-top: 20px;
+    font-size: 18px;
+    line-height: 1.8;
+}
+
+.notification {
+    position: fixed;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #f44336;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.5s ease, visibility 0s 0.5s;
+}
+
+.notification.show {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.5s ease;
+}
+
+button#reset {
+    background-color: #f44336;
+}
+
+button#reset:hover {
+    background-color: #e53935;
+}
+
+button#start-game {
+    background-color: #2196F3;
+}
+
+button#start-game:hover {
+    background-color: #1976D2;
+}
