@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
     let currentScore = 0;
     let targetPoints = 100;
     let gameStarted = false;
+    let diceMode = 1; 
     let dice1 = 1;
     let dice2 = 1;
     let doubleCount = 0;
@@ -46,6 +47,15 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
+        diceMode = document.querySelector('input[name="dice-mode"]:checked').value;
+
+        // Näytetään tai piilotetaan toinen noppa
+        if (diceMode == 1) {
+            document.getElementById('dice-image-2').style.display = 'none';
+        } else {
+            document.getElementById('dice-image-2').style.display = 'inline';
+        }
+
         gameStarted = true;
         document.getElementById('roll-dice').disabled = false;
         document.getElementById('hold').disabled = false;
@@ -67,27 +77,40 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function rollDice() {
-        dice1 = rollDie();
-        dice2 = rollDie();
         let roundPoints = 0;
 
-        document.getElementById('dice-image').src = `muut/kuvat/${dice1}.png`;
+        if (diceMode == 1) { 
+            dice1 = rollDie();
+            document.getElementById('dice-image-1').src = `muut/kuvat/${dice1}.png`;
 
-        if (dice1 === 1 || dice2 === 1) {
-            showNotification('Sika vei pisteet! Vuoro siirtyy seuraavalle.', 'error');
-            switchPlayer();
-            return;
-        } else if (dice1 === dice2) {
-            roundPoints = (dice1 + dice2) * 2;
-            doubleCount++;
-            if (doubleCount === 3) {
-                showNotification('Kolme tuplaa! Menetit pisteet.', 'error');
+            if (dice1 === 1) {
+                showNotification('Sika vei pisteet! Vuoro siirtyy seuraavalle.', 'error');
                 switchPlayer();
                 return;
             }
-        } else {
-            roundPoints = dice1 + dice2;
-            doubleCount = 0;
+            roundPoints = dice1;
+        } else { 
+            dice1 = rollDie();
+            dice2 = rollDie();
+            document.getElementById('dice-image-1').src = `muut/kuvat/${dice1}.png`;
+            document.getElementById('dice-image-2').src = `muut/kuvat/${dice2}.png`;
+
+            if (dice1 === 1 || dice2 === 1) {
+                showNotification('Sika vei pisteet! Vuoro siirtyy seuraavalle.', 'error');
+                switchPlayer();
+                return;
+            } else if (dice1 === dice2) {
+                roundPoints = (dice1 + dice2) * 2;
+                doubleCount++;
+                if (doubleCount === 3) {
+                    showNotification('Kolme tuplaa! Menetit pisteet.', 'error');
+                    switchPlayer();
+                    return;
+                }
+            } else {
+                roundPoints = dice1 + dice2;
+                doubleCount = 0;
+            }
         }
 
         currentScore += roundPoints;
@@ -107,16 +130,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function resetGame() {
         gameStarted = false;
-        players.forEach(player => player.score = 0);
+        players = [];  // Tyhjennetään pelaajat
         currentPlayerIndex = 0;
         currentScore = 0;
         doubleCount = 0;
 
         document.getElementById('roll-dice').disabled = true;
         document.getElementById('hold').disabled = true;
-        document.getElementById('reset').disabled = true;
         document.getElementById('peliruutu').style.display = 'none';
         document.getElementById('player-section').style.display = 'block';
+        document.getElementById('total-scores').innerHTML = ''; // Tyhjennetään pisteet
+        document.getElementById('playerName').value = ''; // Tyhjennetään syötekenttä
 
         updateUI();
     }
